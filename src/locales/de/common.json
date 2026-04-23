@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "title": "Pflanzenulli - Pflanzentausch-Plattform",
+    "description": "Eine Community-Plattform zum Tauschen und Handeln von Pflanzen in Europa"
+  },
+  "nav": {
+    "home": "Startseite",
+    "search": "Suche",
+    "listings": "Inserate",
+    "messages": "Nachrichten",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout": "Abmelden",
+    "admin": "Admin"
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "error": "Etwas ist schiefgelaufen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "back": "Zurück",
+    "next": "Weiter",
+    "submit": "Absenden",
+    "search": "Suchen",
+    "or": "oder",
+    "required": "Pflichtfeld"
+  },
+  "home": {
+    "hero": "Finde deine nächste Pflanze",
+    "subtitle": "Tausche, handle und vernetze dich mit Pflanzenliebhabern in ganz Europa"
+  },
+  "auth": {
+    "loginTitle": "Willkommen zurück",
+    "loginSubtitle": "Melde dich bei deinem Konto an",
+    "continueWithGoogle": "Weiter mit Google",
+    "continueWithApple": "Weiter mit Apple",
+    "continueWithEmail": "Weiter mit E-Mail",
+    "emailPlaceholder": "du@beispiel.de",
+    "sendMagicLink": "Magic Link senden",
+    "magicLinkSent": "Prüfe deine E-Mails für den Anmeldelink",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Bereits ein Konto?",
+    "signUp": "Registrieren",
+    "signIn": "Anmelden"
+  },
+  "onboarding": {
+    "title": "Profil einrichten",
+    "subtitle": "Erzähl uns etwas über dich",
+    "displayName": "Anzeigename",
+    "accountType": "Kontotyp",
+    "private": "Privat",
+    "commercial": "Gewerblich",
+    "privateDescription": "Ich bin Hobbygärtner und tausche eigene Pflanzen",
+    "commercialDescription": "Ich bin ein Unternehmen oder professioneller Verkäufer",
+    "country": "Land",
+    "language": "Bevorzugte Sprache",
+    "gdprConsent": "Ich stimme der Verarbeitung meiner Daten gemäß der Datenschutzerklärung zu",
+    "tosAccepted": "Ich akzeptiere die Nutzungsbedingungen",
+    "complete": "Einrichtung abschließen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "profile": "Profil",
+    "commercial": "Gewerbliches Profil",
+    "subscription": "Abonnement",
+    "gdprExport": "Meine Daten exportieren",
+    "gdprDelete": "Mein Konto löschen",
+    "gdprDeleteConfirm": "Bist du sicher? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "saved": "Einstellungen gespeichert"
+  }
+}

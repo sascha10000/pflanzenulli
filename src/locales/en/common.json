@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "title": "Pflanzenulli - Plant Swap Platform",
+    "description": "A community-first plant swap and marketplace for Europe"
+  },
+  "nav": {
+    "home": "Home",
+    "search": "Search",
+    "listings": "Listings",
+    "messages": "Messages",
+    "profile": "Profile",
+    "settings": "Settings",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "admin": "Admin"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "or": "or",
+    "required": "Required"
+  },
+  "home": {
+    "hero": "Find your next plant",
+    "subtitle": "Swap, trade, and connect with plant lovers across Europe"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Sign in to your account",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "continueWithEmail": "Continue with email",
+    "emailPlaceholder": "you@example.com",
+    "sendMagicLink": "Send magic link",
+    "magicLinkSent": "Check your email for a sign-in link",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signUp": "Sign up",
+    "signIn": "Sign in"
+  },
+  "onboarding": {
+    "title": "Set up your profile",
+    "subtitle": "Tell us a bit about yourself",
+    "displayName": "Display name",
+    "accountType": "Account type",
+    "private": "Private",
+    "commercial": "Commercial",
+    "privateDescription": "I'm a hobbyist trading my own plants",
+    "commercialDescription": "I'm a business or professional seller",
+    "country": "Country",
+    "language": "Preferred language",
+    "gdprConsent": "I consent to the processing of my data as described in the Privacy Policy",
+    "tosAccepted": "I accept the Terms of Service",
+    "complete": "Complete setup"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "commercial": "Commercial Profile",
+    "subscription": "Subscription",
+    "gdprExport": "Export my data",
+    "gdprDelete": "Delete my account",
+    "gdprDeleteConfirm": "Are you sure? This action cannot be undone.",
+    "saved": "Settings saved"
+  }
+}
