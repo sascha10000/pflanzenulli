@@ -1,3 +1,6 @@
+# Production overrides — use with:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
 services:
   app:
     build:
@@ -7,25 +10,7 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_URL=${REDIS_URL}
-      - MEILISEARCH_URL=${MEILISEARCH_URL}
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
-      - MINIO_PORT=${MINIO_PORT}
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      - MINIO_BUCKET=${MINIO_BUCKET}
-      - MINIO_USE_SSL=${MINIO_USE_SSL}
-      - AUTH_SECRET=${AUTH_SECRET}
-      - AUTH_URL=${AUTH_URL}
-      - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
-      - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}
-      - RESEND_API_KEY=${RESEND_API_KEY}
-      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
-      - EARLY_ACCESS_ENABLED=${EARLY_ACCESS_ENABLED}
-      - NODE_ENV=production
+    env_file: .env.production
     depends_on:
       postgres:
         condition: service_healthy
@@ -42,19 +27,7 @@ services:
       dockerfile: Dockerfile
       target: worker
     restart: unless-stopped
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_URL=${REDIS_URL}
-      - MEILISEARCH_URL=${MEILISEARCH_URL}
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
-      - MINIO_PORT=${MINIO_PORT}
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      - MINIO_BUCKET=${MINIO_BUCKET}
-      - MINIO_USE_SSL=${MINIO_USE_SSL}
-      - AUTH_SECRET=${AUTH_SECRET}
-      - NODE_ENV=production
+    env_file: .env.production
     depends_on:
       postgres:
         condition: service_healthy
@@ -63,70 +36,39 @@ services:
     networks:
       - internal
 
+  # Override infrastructure services for production:
+  # - No exposed ports (only reachable via internal network)
+  # - No default passwords
+  # - Production-tuned settings
+
   postgres:
-    image: postgres:16-alpine
-    restart: unless-stopped
+    ports: !override []
     environment:
-      POSTGRES_USER: pflanzenulli
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: pflanzenulli
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pflanzenulli"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - internal
 
   redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_secret}
-    volumes:
-      - redisdata:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_secret}", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    ports: !override []
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     networks:
       - internal
 
   meilisearch:
-    image: getmeili/meilisearch:v1.12
-    restart: unless-stopped
+    ports: !override []
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: production
-    volumes:
-      - msdata:/meili_data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - internal
 
   minio:
-    image: minio/minio
-    restart: unless-stopped
+    ports: !override []
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-    volumes:
-      - miniodata:/data
-    command: server /data --console-address ":9001"
     networks:
       - internal
-
-volumes:
-  pgdata:
-  redisdata:
-  msdata:
-  miniodata:
 
 networks:
   internal:
