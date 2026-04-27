@@ -49,14 +49,14 @@ export function Footer() {
             </h3>
             <ul className="mt-3 space-y-2.5">
               <li>
-                <a href="/en" className="text-[13px] text-text-muted hover:text-forest transition-colors">
+                <Link href="/" locale="en" className="text-[13px] text-text-muted hover:text-forest transition-colors">
                   English
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/de" className="text-[13px] text-text-muted hover:text-forest transition-colors">
+                <Link href="/" locale="de" className="text-[13px] text-text-muted hover:text-forest transition-colors">
                   Deutsch
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
