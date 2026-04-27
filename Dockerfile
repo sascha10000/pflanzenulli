@@ -18,8 +18,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Build Next.js app (produces .next/standalone)
 RUN pnpm build
 
-# Build worker (compile TS to JS so it can run without tsx)
-RUN npx tsc --project tsconfig.worker.json || true
+# Build worker: emit JS (tsc errors are logged but non-fatal — tsc emits even on type errors),
+# then rewrite @/ path aliases to relative paths so Node CJS loader can resolve them at runtime.
+RUN (npx tsc --project tsconfig.worker.json || true) && npx tsc-alias --project tsconfig.worker.json
 
 # --- Production: Next.js app ---
 FROM base AS runner
@@ -42,6 +43,16 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
+
+# --- Migrator (one-shot) ---
+FROM base AS migrator
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json ./
+COPY drizzle/migrations ./drizzle/migrations
+COPY scripts/migrate.mjs ./scripts/migrate.mjs
+CMD ["node", "scripts/migrate.mjs"]
 
 # --- Production: Worker ---
 FROM base AS worker

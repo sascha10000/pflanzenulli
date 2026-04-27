@@ -1,7 +1,9 @@
 /**
  * Email sending service.
- * Uses Resend in production, logs to console in development.
+ * Uses SMTP via nodemailer. If SMTP_HOST is not configured, logs to console.
  */
+
+import nodemailer, { type Transporter } from "nodemailer";
 
 interface EmailOptions {
   to: string;
@@ -10,36 +12,44 @@ interface EmailOptions {
   from?: string;
 }
 
-export async function sendEmail(options: EmailOptions) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = options.from ?? "Pflanzenulli <noreply@pflanzenulli.eu>";
+let transporter: Transporter | undefined;
 
-  if (!apiKey) {
+function getTransporter(): Transporter {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === "true",
+      auth: process.env.SMTP_USER
+        ? {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD,
+          }
+        : undefined,
+    });
+  }
+  return transporter;
+}
+
+export async function sendEmail(options: EmailOptions) {
+  const from =
+    options.from ??
+    process.env.SMTP_FROM ??
+    "Pflanzenulli <noreply@pflanzenulli.eu>";
+
+  if (!process.env.SMTP_HOST) {
     console.log(`[Email] Would send to ${options.to}: ${options.subject}`);
     return { id: "dev-mode" };
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-    }),
+  const info = await getTransporter().sendMail({
+    from,
+    to: options.to,
+    subject: options.subject,
+    html: options.html,
   });
 
-  if (!response.ok) {
-    const error = await response.text();
-    console.error(`[Email] Failed to send: ${error}`);
-    throw new Error(`Email send failed: ${response.status}`);
-  }
-
-  return response.json();
+  return { id: info.messageId };
 }
 
 // --- Template helpers ---

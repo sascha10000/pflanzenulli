@@ -12,8 +12,8 @@ export default function LoginPage() {
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signIn("resend", { email, redirect: false });
-    setEmailSent(true);
+    const res = await signIn("nodemailer", { email, redirect: false });
+    if (!res?.error) setEmailSent(true);
   };
 
   return (

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Apple from "next-auth/providers/apple";
-import Resend from "next-auth/providers/resend";
+import Nodemailer from "next-auth/providers/nodemailer";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/lib/db";
 import {
@@ -30,9 +30,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientId: process.env.AUTH_APPLE_ID,
       clientSecret: process.env.AUTH_APPLE_SECRET,
     }),
-    Resend({
-      apiKey: process.env.RESEND_API_KEY,
-      from: process.env.AUTH_EMAIL_FROM || "noreply@pflanzenulli.eu",
+    Nodemailer({
+      server: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: process.env.SMTP_SECURE === "true",
+        auth: process.env.SMTP_USER
+          ? {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASSWORD,
+            }
+          : undefined,
+      },
+      from: process.env.SMTP_FROM || "noreply@pflanzenulli.eu",
     }),
   ],
   callbacks: {

@@ -18,6 +18,7 @@ import { getRedis } from "@/lib/redis";
 import { expireOldListings } from "@/modules/listings/service";
 import { cleanupExpiredAddresses } from "@/modules/messages/service";
 import { sendEmail } from "@/lib/email";
+import { indexListing, removeListing } from "@/modules/listings/search";
 
 const connection = getRedis();
 
@@ -64,10 +65,6 @@ new Worker(
       action: "index" | "remove";
       document: Record<string, unknown>;
     };
-
-    const { indexListing, removeListing } = await import(
-      "@/modules/listings/search"
-    );
 
     if (action === "index") {
       await indexListing(document as unknown as Parameters<typeof indexListing>[0]);
